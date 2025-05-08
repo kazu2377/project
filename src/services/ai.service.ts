@@ -1,3 +1,4 @@
+import { supabase } from "../lib/supabase";
 import { Problem } from "../lib/types";
 
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
@@ -55,14 +56,34 @@ export async function generateProblem(level: number): Promise<Problem> {
     const data = await response.json();
     const result = JSON.parse(data.choices[0].message.content);
 
-    return {
-      id: `ai-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`,
+    const problemContent = {
       question: result.question,
       options: result.options,
       answer: result.answer,
       explanation: result.explanation,
       level,
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    };
+
+    const { data: newProblem, error: insertError } = await supabase
+      .from("problems")
+      .insert(problemContent)
+      .select()
+      .single();
+
+    if (insertError) {
+      console.error("Error inserting AI problem:", insertError);
+      return getDefaultProblem(level);
+    }
+
+    return {
+      id: newProblem.id,
+      question: newProblem.question,
+      options: newProblem.options,
+      answer: newProblem.answer,
+      explanation: newProblem.explanation,
+      level: newProblem.level,
+      createdAt: newProblem.created_at,
     };
   } catch (error) {
     console.error("Error generating problem:", error);
@@ -73,7 +94,7 @@ export async function generateProblem(level: number): Promise<Problem> {
 function getDefaultProblem(level: number): Problem {
   const defaultProblems: Record<number, Problem> = {
     1: {
-      id: "default-1",
+      id: "123e4567-e89b-12d3-a456-426614174000",
       question:
         '次のJavaScriptコードの出力は何ですか？\n\n```javascript\nlet x = 5;\nlet y = "10";\nconsole.log(x + y);\n```',
       options: ["15", '"510"', "エラー", '5 + "10"'],
@@ -84,7 +105,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     2: {
-      id: "default-2",
+      id: "123e4567-e89b-12d3-a456-426614174001",
       question: "次の比較式の結果はどうなりますか？\n\n```javascript\nconsole.log(3 > 2 > 1);\n```",
       options: ["true", "false", "エラー", "比較不可能"],
       answer: 1,
@@ -94,7 +115,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     3: {
-      id: "default-3",
+      id: "123e4567-e89b-12d3-a456-426614174002",
       question:
         '次のif文の出力は何になりますか？\n\n```javascript\nlet val = 0;\nif (val = 1) {\n  console.log("真");\n} else {\n  console.log("偽");\n}\n```',
       options: ["真", "偽", "エラー", "未定義"],
@@ -105,7 +126,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     4: {
-      id: "default-4",
+      id: "123e4567-e89b-12d3-a456-426614174003",
       question:
         "次のループの実行回数は何回ですか？\n\n```javascript\nfor (let i = 0; i < 5; i += 2) {\n  console.log(i);\n}\n```",
       options: ["2回", "3回", "4回", "5回"],
@@ -116,7 +137,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     5: {
-      id: "default-5",
+      id: "123e4567-e89b-12d3-a456-426614174004",
       question:
         "次の関数の戻り値は何になりますか？\n\n```javascript\nfunction test() {\n  return\n  {\n    value: 42\n  }\n}\nconsole.log(test());\n```",
       options: ["{ value: 42 }", "undefined", "42", "エラー"],
@@ -127,7 +148,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     6: {
-      id: "default-6",
+      id: "123e4567-e89b-12d3-a456-426614174005",
       question:
         "次の配列操作の結果は何になりますか？\n\n```javascript\nconst arr = [1, 2, 3];\narr.push(4);\narr[0] = 0;\nconsole.log(arr.length);\n```",
       options: ["3", "4", "5", "エラー"],
@@ -138,7 +159,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     7: {
-      id: "default-7",
+      id: "123e4567-e89b-12d3-a456-426614174006",
       question:
         "次のコードの出力は何になりますか？\n\n```javascript\nconst obj1 = { value: 10 };\nconst obj2 = obj1;\nobj2.value = 20;\nconsole.log(obj1.value);\n```",
       options: ["10", "20", "undefined", "エラー"],
@@ -149,7 +170,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     8: {
-      id: "default-8",
+      id: "123e4567-e89b-12d3-a456-426614174007",
       question:
         '次のtry-catch文の出力は何になりますか？\n\n```javascript\ntry {\n  throw new Error("エラー発生");\n  console.log("A");\n} catch (e) {\n  console.log("B");\n} finally {\n  console.log("C");\n}\n```',
       options: ["A,B,C", "B,C", "C", "エラー"],
@@ -160,7 +181,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     9: {
-      id: "default-9",
+      id: "123e4567-e89b-12d3-a456-426614174008",
       question:
         "次のバブルソートの実装で、内側のループの条件として正しいものはどれですか？\n\n```javascript\nfunction bubbleSort(arr) {\n  for (let i = 0; i < arr.length; i++) {\n    for (let j = 0; j < ???; j++) {\n      if (arr[j] > arr[j + 1]) {\n        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n      }\n    }\n  }\n  return arr;\n}\n```",
       options: ["arr.length", "arr.length - 1", "arr.length - i", "arr.length - i - 1"],
@@ -171,7 +192,7 @@ function getDefaultProblem(level: number): Problem {
       createdAt: new Date().toISOString(),
     },
     10: {
-      id: "default-10",
+      id: "123e4567-e89b-12d3-a456-426614174009",
       question:
         "次の二分探索木の実装で、挿入メソッドの再帰呼び出しとして正しいものはどれですか？\n\n```javascript\nclass Node {\n  constructor(value) {\n    this.value = value;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nclass BinarySearchTree {\n  constructor() {\n    this.root = null;\n  }\n\n  insert(value, node = this.root) {\n    if (!this.root) {\n      this.root = new Node(value);\n      return;\n    }\n    if (value < node.value) {\n      if (!node.left) {\n        node.left = new Node(value);\n      } else {\n        // ここに再帰呼び出しを入れる\n      }\n    } else {\n      if (!node.right) {\n        node.right = new Node(value);\n      } else {\n        // ここに再帰呼び出しを入れる\n      }\n    }\n  }\n}\n```",
       options: [
