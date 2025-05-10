@@ -1,6 +1,6 @@
 import React from 'react';
-import { Problem } from '../../lib/types';
-import { CheckCircle, XCircle, HelpCircle, RefreshCw } from 'lucide-react';
+import { Problem, PROGRAMMING_LANGUAGES } from '../../lib/types';
+import { CheckCircle, XCircle, HelpCircle, RefreshCw, Code2 } from 'lucide-react';
 
 interface ResultCardProps {
   problem: Problem;
@@ -19,18 +19,24 @@ const ResultCard: React.FC<ResultCardProps> = ({
 }) => {
   return (
     <div className="card p-6 animate-fade-in">
-      <div className="flex items-center mb-6">
-        {isCorrect ? (
-          <div className="flex items-center text-success-600 dark:text-success-500">
-            <CheckCircle className="h-6 w-6 mr-2" />
-            <h2 className="text-xl font-bold">正解です！</h2>
-          </div>
-        ) : (
-          <div className="flex items-center text-error-600 dark:text-error-500">
-            <XCircle className="h-6 w-6 mr-2" />
-            <h2 className="text-xl font-bold">不正解です</h2>
-          </div>
-        )}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          {isCorrect ? (
+            <div className="flex items-center text-success-600 dark:text-success-500">
+              <CheckCircle className="h-6 w-6 mr-2" />
+              <h2 className="text-xl font-bold">正解です！</h2>
+            </div>
+          ) : (
+            <div className="flex items-center text-error-600 dark:text-error-500">
+              <XCircle className="h-6 w-6 mr-2" />
+              <h2 className="text-xl font-bold">不正解です</h2>
+            </div>
+          )}
+        </div>
+        <div className="flex items-center text-sm font-medium text-primary-600 dark:text-primary-400">
+          <Code2 className="h-4 w-4 mr-1" />
+          {PROGRAMMING_LANGUAGES[problem.language]}
+        </div>
       </div>
       
       <div className="mb-6">
@@ -42,7 +48,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
             </p>
             <pre className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-4">
               <code className="text-sm md:text-base font-mono">
-                {problem.question.split("```")[1].replace(/^javascript\s*/, "").trim()}
+                {problem.question.split("```")[1].replace(new RegExp(`^${problem.language}\\s*`), "").trim()}
               </code>
             </pre>
           </>

@@ -12,6 +12,7 @@ export interface Problem {
   answer: number;
   explanation: string;
   level: number;
+  language: ProgrammingLanguage;
   createdAt: string;
 }
 
@@ -41,3 +42,14 @@ export interface LevelInfo {
   description: string;
   requiredToUnlock: number;
 }
+
+export type ProgrammingLanguage = 'javascript' | 'csharp' | 'accessvba' | 'sql' | 'uipath' | 'html';
+
+export const PROGRAMMING_LANGUAGES: Record<ProgrammingLanguage, string> = {
+  javascript: 'JavaScript',
+  csharp: 'C#',
+  accessvba: 'Access VBA',
+  sql: 'SQL',
+  uipath: 'UiPath',
+  html: 'HTML'
+};

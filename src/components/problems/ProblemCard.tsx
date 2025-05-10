@@ -1,6 +1,6 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Code2 } from "lucide-react";
 import React, { useState } from "react";
-import { Problem } from "../../lib/types";
+import { Problem, PROGRAMMING_LANGUAGES } from "../../lib/types";
 
 interface ProblemCardProps {
   problem: Problem;
@@ -23,8 +23,14 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
 
   return (
     <div className="card p-6 animate-fade-in">
-      <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-        レベル {problem.level}
+      <div className="flex items-center justify-between mb-4">
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          レベル {problem.level}
+        </div>
+        <div className="flex items-center text-sm font-medium text-primary-600 dark:text-primary-400">
+          <Code2 className="h-4 w-4 mr-1" />
+          {PROGRAMMING_LANGUAGES[problem.language]}
+        </div>
       </div>
 
       <div className="mb-6">
@@ -36,7 +42,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
             </p>
             <pre className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-4">
               <code className="text-sm md:text-base font-mono">
-                {problem.question.split("```")[1].replace(/^javascript\s*/, "").trim()}
+                {problem.question.split("```")[1].replace(new RegExp(`^${problem.language}\\s*`), "").trim()}
               </code>
             </pre>
           </>
