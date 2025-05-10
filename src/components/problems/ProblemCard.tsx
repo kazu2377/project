@@ -24,51 +24,56 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
   return (
     <div className="card p-6 animate-fade-in">
       <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-        レベル{problem.level} チャレンジ
+        レベル {problem.level}
       </div>
-      {/* 問題文とコードブロックを分けて表示 */}
-      {problem.question.includes("```") ? (
-        <>
-          <div className="mb-2 text-lg font-medium">{problem.question.split("```")[0]}</div>
-          <pre className="code-block mb-6 text-sm md:text-base font-mono bg-gray-100 dark:bg-gray-800 rounded p-3 overflow-x-auto">
-            <code>
-              {problem.question
-                .split("```")[1]
-                .replace(/^javascript\s*/, "")
-                .trim()}
-            </code>
-          </pre>
-        </>
-      ) : (
-        <h2 className="text-xl md:text-2xl font-bold mb-4">{problem.question}</h2>
-      )}
 
-      <div className="space-y-3 mb-6">
-        {problem.options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => handleOptionSelect(index)}
-            className={`w-full text-left p-4 rounded-lg border transition-all ${
-              selectedOption === index
-                ? "border-primary-500 bg-primary-50 dark:bg-primary-900/20"
-                : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
-            }`}
-            disabled={isSubmitting}
-          >
-            <div className="flex items-start">
-              <div
-                className={`flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full mr-3 ${
-                  selectedOption === index
-                    ? "bg-primary-500 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                }`}
-              >
-                {String.fromCharCode(65 + index)}
+      <div className="mb-6">
+        <h2 className="text-xl font-medium mb-4">問題</h2>
+        {problem.question.includes("```") ? (
+          <>
+            <p className="mb-4 text-gray-800 dark:text-gray-200">
+              {problem.question.split("```")[0]}
+            </p>
+            <pre className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-4">
+              <code className="text-sm md:text-base font-mono">
+                {problem.question.split("```")[1].replace(/^javascript\s*/, "").trim()}
+              </code>
+            </pre>
+          </>
+        ) : (
+          <p className="text-gray-800 dark:text-gray-200">{problem.question}</p>
+        )}
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-3">選択肢</h3>
+        <div className="space-y-3">
+          {problem.options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleOptionSelect(index)}
+              className={`w-full text-left p-4 rounded-lg border transition-all ${
+                selectedOption === index
+                  ? "border-primary-500 bg-primary-50 dark:bg-primary-900/20"
+                  : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+              }`}
+              disabled={isSubmitting}
+            >
+              <div className="flex items-start">
+                <div
+                  className={`flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full mr-3 ${
+                    selectedOption === index
+                      ? "bg-primary-500 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                  }`}
+                >
+                  {String.fromCharCode(65 + index)}
+                </div>
+                <div className="flex-grow text-base">{option}</div>
               </div>
-              <div className="flex-grow text-base">{option}</div>
-            </div>
-          </button>
-        ))}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex justify-end">
@@ -105,7 +110,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
             </>
           ) : (
             <>
-              回答を送信
+              回答する
               <ChevronRight className="ml-1 h-4 w-4" />
             </>
           )}

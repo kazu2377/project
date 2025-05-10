@@ -19,29 +19,42 @@ const ResultCard: React.FC<ResultCardProps> = ({
 }) => {
   return (
     <div className="card p-6 animate-fade-in">
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-6">
         {isCorrect ? (
           <div className="flex items-center text-success-600 dark:text-success-500">
             <CheckCircle className="h-6 w-6 mr-2" />
-            <h3 className="text-xl font-bold">正解です！</h3>
+            <h2 className="text-xl font-bold">正解です！</h2>
           </div>
         ) : (
           <div className="flex items-center text-error-600 dark:text-error-500">
             <XCircle className="h-6 w-6 mr-2" />
-            <h3 className="text-xl font-bold">不正解です</h3>
+            <h2 className="text-xl font-bold">不正解です</h2>
           </div>
         )}
       </div>
       
       <div className="mb-6">
-        <h4 className="font-medium mb-2">問題:</h4>
-        <p className="text-gray-800 dark:text-gray-200">{problem.question}</p>
+        <h3 className="text-lg font-medium mb-4">問題</h3>
+        {problem.question.includes("```") ? (
+          <>
+            <p className="mb-4 text-gray-800 dark:text-gray-200">
+              {problem.question.split("```")[0]}
+            </p>
+            <pre className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-4">
+              <code className="text-sm md:text-base font-mono">
+                {problem.question.split("```")[1].replace(/^javascript\s*/, "").trim()}
+              </code>
+            </pre>
+          </>
+        ) : (
+          <p className="text-gray-800 dark:text-gray-200">{problem.question}</p>
+        )}
         
-        <div className="mt-4 space-y-2">
+        <div className="mt-6 space-y-2">
           {problem.options.map((option, index) => (
             <div 
               key={index}
-              className={`p-3 rounded-lg ${
+              className={`p-4 rounded-lg ${
                 index === problem.answer 
                   ? 'bg-success-50 dark:bg-success-900/20 border border-success-500'
                   : index === selectedOption 
@@ -59,9 +72,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
                 }`}>
                   {String.fromCharCode(65 + index)}
                 </div>
-                <div className="flex-grow">
-                  {option}
-                </div>
+                <div className="flex-grow text-base">{option}</div>
               </div>
             </div>
           ))}
@@ -72,7 +83,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
         <div className="flex items-start">
           <HelpCircle className="h-5 w-5 mr-2 text-secondary-600 dark:text-secondary-400 mt-0.5" />
           <div>
-            <h4 className="font-medium mb-1">解説:</h4>
+            <h3 className="text-lg font-medium mb-2">解説</h3>
             <p className="text-gray-700 dark:text-gray-300">{explanation}</p>
           </div>
         </div>
