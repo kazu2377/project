@@ -26,10 +26,10 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
       <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
         レベル{problem.level} チャレンジ
       </div>
-      {/* 問題文の本文とコードブロックを分離して表示 */}
+      {/* 問題文とコードブロックを分けて表示 */}
       {problem.question.includes("```") ? (
         <>
-          <div className="mb-2 text-base">{problem.question.split("```")[0]}</div>
+          <div className="mb-2 text-lg font-medium">{problem.question.split("```")[0]}</div>
           <pre className="code-block mb-6 text-sm md:text-base font-mono bg-gray-100 dark:bg-gray-800 rounded p-3 overflow-x-auto">
             <code>
               {problem.question
@@ -65,7 +65,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
               >
                 {String.fromCharCode(65 + index)}
               </div>
-              <div className="flex-grow">{option}</div>
+              <div className="flex-grow text-base">{option}</div>
             </div>
           </button>
         ))}
@@ -101,7 +101,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ problem, onSubmit, isSubmitti
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              チェック中...
+              解答を確認中...
             </>
           ) : (
             <>

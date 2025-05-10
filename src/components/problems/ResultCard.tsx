@@ -23,18 +23,18 @@ const ResultCard: React.FC<ResultCardProps> = ({
         {isCorrect ? (
           <div className="flex items-center text-success-600 dark:text-success-500">
             <CheckCircle className="h-6 w-6 mr-2" />
-            <h3 className="text-xl font-bold">Correct!</h3>
+            <h3 className="text-xl font-bold">正解です！</h3>
           </div>
         ) : (
           <div className="flex items-center text-error-600 dark:text-error-500">
             <XCircle className="h-6 w-6 mr-2" />
-            <h3 className="text-xl font-bold">Incorrect</h3>
+            <h3 className="text-xl font-bold">不正解です</h3>
           </div>
         )}
       </div>
       
       <div className="mb-6">
-        <h4 className="font-medium mb-2">Question:</h4>
+        <h4 className="font-medium mb-2">問題:</h4>
         <p className="text-gray-800 dark:text-gray-200">{problem.question}</p>
         
         <div className="mt-4 space-y-2">
@@ -72,7 +72,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
         <div className="flex items-start">
           <HelpCircle className="h-5 w-5 mr-2 text-secondary-600 dark:text-secondary-400 mt-0.5" />
           <div>
-            <h4 className="font-medium mb-1">Explanation:</h4>
+            <h4 className="font-medium mb-1">解説:</h4>
             <p className="text-gray-700 dark:text-gray-300">{explanation}</p>
           </div>
         </div>
@@ -83,7 +83,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
           onClick={onNextProblem}
           className="btn btn-primary"
         >
-          Next Problem
+          次の問題へ
           <RefreshCw className="ml-1 h-4 w-4" />
         </button>
       </div>
