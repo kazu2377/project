@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LoginForm from '../components/auth/LoginForm';
-import { Code } from 'lucide-react';
+import { Code } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
+import LoginForm from "../components/auth/LoginForm";
 
 const LoginPage: React.FC = () => {
   return (
@@ -11,12 +11,15 @@ const LoginPage: React.FC = () => {
           <Code className="h-12 w-12 text-primary-600 dark:text-primary-400" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-          Log in to your account
+          アカウントにログイン
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-          Or{' '}
-          <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
-            create a new account
+          または{" "}
+          <Link
+            to="/register"
+            className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
+          >
+            新規アカウントを作成
           </Link>
         </p>
       </div>
